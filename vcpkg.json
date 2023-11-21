@@ -3,6 +3,7 @@
         "catch2",
         "gtest",
         "bext-di",
-        "cereal"
+        "cereal",
+        "trompeloeil"
     ]
 }

@@ -32,3 +32,11 @@ add_subdirectory(injecting-dependencies)
 add_subdirectory(mocks-vs-stubs)
 add_subdirectory(mother-vs-builder)
 add_subdirectory(document-editor)
+
+add_subdirectory(tdd-katas/catch2/bowling-catch)
+add_subdirectory(tdd-katas/catch2/recently-used-list-catch)
+add_subdirectory(tdd-katas/catch2/mars-rover-catch)
+
+add_subdirectory(tdd-katas/gtest/bowling)
+add_subdirectory(tdd-katas/gtest/recently-used-list)
+add_subdirectory(tdd-katas/gtest/mars-rover)
