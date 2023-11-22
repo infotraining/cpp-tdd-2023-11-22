@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <string>
 #include <memory>
+#include <array>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -14,16 +15,25 @@ class BowlingGame
 public:
     int score() const
     {
-        return score_;
+        int result{};
+        for(int i = 0; i < rolls_.size(); i += 2)
+        {
+            if (rolls_.at(i) + rolls_.at(i+1) == 10)
+                result += rolls_.at(i+2);
+            
+            result += rolls_.at(i) + rolls_.at(i+1);
+        }
+        
+        return result;
     }
 
     void roll(int pins)
     {
-        score_ += pins;
+        rolls_.at(roll_index_++) = pins;
     }
 private:
-    int score_ {0};
-
+    int roll_index_{0};
+    std::array<int, 20> rolls_ {};
 };
 
 class BowlingGameTests : public ::testing::Test // Arrange
@@ -46,9 +56,9 @@ protected:
 
     void roll_many(int rolls, int  pins)
     {
-        for(int i = 0; i < 20; ++i)
+        for(int i = 0; i < rolls; ++i)
         {
-            game.roll(0);
+            game.roll(pins);
         }
     }
 };
@@ -76,4 +86,22 @@ TEST_F(BowlingGameTests, WhenRollsWithPinsScoreIsSumOfPins)
     int result = game.score();       // Act
 
     ASSERT_EQ(result, 20);           // Assert
-}  
+} 
+
+TEST_F(BowlingGameTests, WhenSpareNextRoundHasDoubledPoints)
+{
+    game.roll(1);
+    game.roll(9);  // spare
+    roll_many(18, 1);
+
+    ASSERT_EQ(game.score(), 29);
+} 
+
+// TEST_F(BowlingGameTests, WhenSpareNextRollHasDoubledPoints)
+// {
+//     game.roll(1);
+//     game.roll(9);
+//     game.roll(0);
+//     roll_many(17, 1);
+//     ASSERT_EQ(result, 27);           // Assert
+// } 
