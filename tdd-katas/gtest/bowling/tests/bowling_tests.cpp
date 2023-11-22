@@ -43,6 +43,14 @@ protected:
     // void TearDown() override
     // {
     // }
+
+    void roll_many(int rolls, int  pins)
+    {
+        for(int i = 0; i < 20; ++i)
+        {
+            game.roll(0);
+        }
+    }
 };
 
 TEST_F(BowlingGameTests, WhenGameStartsScoreIsZero)
@@ -54,11 +62,8 @@ TEST_F(BowlingGameTests, WhenGameStartsScoreIsZero)
 
 TEST_F(BowlingGameTests, WhenAllRollsZeroScoreIsZero)
 {
-    for(int i = 0; i < 20; ++i)
-    {
-        game.roll(0);
-    }
-
+    roll_many(20, 0);
+    
     int result = game.score();       // Act
 
     ASSERT_EQ(result, 0);            // Assert
@@ -66,12 +71,9 @@ TEST_F(BowlingGameTests, WhenAllRollsZeroScoreIsZero)
 
 TEST_F(BowlingGameTests, WhenRollsWithPinsScoreIsSumOfPins)
 {
-    for(int i = 0; i < 20; ++i)
-    {
-        game.roll(1);
-    }
+    roll_many(20, 1);
 
     int result = game.score();       // Act
 
-    ASSERT_EQ(result, 20);            // Assert
+    ASSERT_EQ(result, 20);           // Assert
 }  
