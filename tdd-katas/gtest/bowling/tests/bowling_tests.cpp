@@ -45,7 +45,7 @@ private:
     static constexpr int frames_count = 10;
 
     int current_roll{0};
-    std::array<int, 20> rolls_ {};
+    std::array<int, 21> rolls_ {};
 
     bool is_spare(int roll_index) const
     {
@@ -159,7 +159,7 @@ TEST_F(BowlingGameTests, WhenSpareButNextRollZeroScoreIsAsSumOfPins)
     ASSERT_EQ(game.score(), 27);     // Assert
 } 
 
-TEST_F(BowlingGameTests, Strike)
+TEST_F(BowlingGameTests, WhenStrikeTwoNextRollsAreCountedTwice)
 {
     roll_strike();
     game.roll(3);
@@ -169,8 +169,36 @@ TEST_F(BowlingGameTests, Strike)
     ASSERT_EQ(game.score(), 44);
 }
 
+TEST_F(BowlingGameTests, WhenSpareInLastFrameThenBonusAsExtraRoll)
+{
+    roll_many(18, 1);
+    roll_spare();
+    game.roll(6);
+
+    ASSERT_EQ(game.score(), 34);
+}
+
+TEST_F(BowlingGameTests, WhenStrikeInLastFrameThenBonusAsExtraTwoRoll)
+{
+    roll_many(18, 1);
+    roll_strike();
+    game.roll(6);
+    game.roll(7);
+
+    ASSERT_EQ(game.score(), 41);
+}
+
+TEST_F(BowlingGameTests, PerfectGame)
+{
+    for(int i = 0; i < 12; ++i)
+        roll_strike();
+
+    ASSERT_EQ(game.score(), 300);
+}
+
 struct BowlingGameParams
 {
+    const char* description;
     std::vector<size_t> rolls;
     unsigned int score;
 };
@@ -188,13 +216,14 @@ TEST_P(BowlingGameParamTests, RealExamplesWithScore)
 	for (const auto& roll : param.rolls)
 		game.roll(roll);
 
-	EXPECT_EQ(game.score(), param.score);
+	ASSERT_EQ(game.score(), param.score) << param.description;
 }
 
 BowlingGameParams params[] = {
-    {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 20},
-    {{0, 8, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 27},
-    //{{10, 3, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 44}
+    {"simple game - all ones", {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 20},
+    {"simple game - different rolls", {0, 8, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 27},
+    {"strike & spare", {10, 4, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 47},
+    { "all spares & strike", {1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 10}, 119}
 };
 
 INSTANTIATE_TEST_SUITE_P(PackOfBowlingTests, BowlingGameParamTests, ::testing::ValuesIn(params));
