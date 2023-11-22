@@ -18,10 +18,10 @@ public:
         int result{};
         for(int i = 0; i < rolls_.size(); i += 2)
         {
-            if (rolls_.at(i) + rolls_.at(i+1) == 10)
-                result += rolls_.at(i+2);
+            if (is_spare(i))
+                result += spare_bonus(i);
             
-            result += rolls_.at(i) + rolls_.at(i+1);
+            result += frame_score(i);
         }
         
         return result;
@@ -32,8 +32,24 @@ public:
         rolls_.at(roll_index_++) = pins;
     }
 private:
+    static constexpr int max_pins_in_frame = 10;
+
     int roll_index_{0};
     std::array<int, 20> rolls_ {};
+
+    bool is_spare(int roll_index) const
+    {
+        return rolls_.at(roll_index) + rolls_.at(roll_index+1) == max_pins_in_frame;
+    }
+
+    int frame_score(int roll_index) const
+    {
+        return rolls_.at(roll_index) + rolls_.at(roll_index+1);
+    }
+
+    size_t spare_bonus(size_t roll_index) const {
+        return rolls_[roll_index + 2];
+}
 };
 
 class BowlingGameTests : public ::testing::Test // Arrange
@@ -60,6 +76,12 @@ protected:
         {
             game.roll(pins);
         }
+    }
+
+    void roll_spare()
+    {
+        game.roll(1);
+        game.roll(9);
     }
 };
 
@@ -90,8 +112,7 @@ TEST_F(BowlingGameTests, WhenRollsWithPinsScoreIsSumOfPins)
 
 TEST_F(BowlingGameTests, WhenSpareNextRoundHasDoubledPoints)
 {
-    game.roll(1);
-    game.roll(9);  // spare
+    roll_spare();
     roll_many(18, 1);
 
     ASSERT_EQ(game.score(), 29);
