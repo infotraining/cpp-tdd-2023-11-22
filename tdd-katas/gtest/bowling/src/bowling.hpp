@@ -5,10 +5,10 @@
 #include <string>
 #include <algorithm>
 
-namespace TDD
-{
-    class BowlingGame   
-    {};
-}
+// namespace TDD
+// {
+//     class BowlingGame   
+//     {};
+// }
 
 #endif
