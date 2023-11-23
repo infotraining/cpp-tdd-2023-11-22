@@ -11,12 +11,12 @@
 using namespace std;
 using namespace TDD;
 
-TEST_CASE("initialization-position-construtor")
+TEST_CASE("initialization-position-constructor")
 {
     auto position = GENERATE(
         Position{0, 0, N},
         Position{22, 22, W});
-    DYNAMIC_SECTION("Params, x: " << position.x << ", y: " << position.y << ", dir: " << position.dir);
+    DYNAMIC_SECTION("Params, x: " << position.x << ", y: " << position.y << ", dir: " << position.dir)
     {
         Rover rover(position);
         REQUIRE(rover.getPosition() == position);
@@ -29,7 +29,7 @@ TEST_CASE("initialization-xyz-constructor")
         Position{0, 0, N},
         Position{22, 22, W});
 
-    DYNAMIC_SECTION("Params, x: " << position.x << ", y: " << position.y << ", dir: " << position.dir);
+    DYNAMIC_SECTION("Params, x: " << position.x << ", y: " << position.y << ", dir: " << position.dir)
     {
         Rover rover(position.x, position.y, position.dir);
         REQUIRE(rover.getPosition() == position);
@@ -46,11 +46,13 @@ TEST_CASE("MOVE_FORWARD_AND_BACKWARD")
 
     );
 
-    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()));
+    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()))
+    {
 
     Rover rover(0, 0, N);
     rover.process_command(command);
     REQUIRE(rover.getPosition() == result);
+    }
 }
 
 TEST_CASE("MOVE_LEFT_AND_RIGHT")
@@ -63,11 +65,13 @@ TEST_CASE("MOVE_LEFT_AND_RIGHT")
 
     );
 
-    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()));
+    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()))
+    {
 
     Rover rover(0, 0, N);
     rover.process_command(command);
     REQUIRE(rover.getPosition() == result);
+    }
 }
 
 TEST_CASE("WARP_EDGES")
@@ -77,11 +81,13 @@ TEST_CASE("WARP_EDGES")
         std::tuple(std::vector{L, F}, Position(100, 0, W)),
         std::tuple(std::vector{B, F}, Position(0, 0, N)));
 
-    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()));
+    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()))
+    {
 
     Rover rover(0, 0, N);
     rover.process_command(command);
     REQUIRE(rover.getPosition() == result);
+    }
 }
 
 TEST_CASE("WORLD_EMPTY_TEST")
@@ -100,12 +106,14 @@ TEST_CASE("OBJECT_TEST")
 
     );
 
-    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()));
+    DYNAMIC_SECTION("Commands" << std::string(command.begin(), command.end()))
+    {
     auto world = std::make_shared<World>(block);
 
     Rover rover(0, 0, N, world);
     REQUIRE(rover.process_command(command) == false);
     REQUIRE(rover.getPosition() == result);
+    }
 }
 
 /*

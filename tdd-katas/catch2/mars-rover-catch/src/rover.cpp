@@ -1,6 +1,8 @@
 #include "rover.hpp"
 #include <stdlib.h>
+
 using namespace TDD;
+
 Rover::Rover(int x, int y, Direction dir, std::optional<std::shared_ptr<World>> world)
 {
     pos.x = x;
@@ -14,6 +16,7 @@ Rover::Rover(Position pos, std::optional<std::shared_ptr<World>> world)
     this->pos = pos;
     m_world = world;
 }
+
 Position Rover::getPosition()
 {
     return pos;
@@ -23,6 +26,7 @@ int math_mod(int a, int b)
 {
     return (b + (a % b)) % b;
 }
+
 bool Rover::process_command(std::vector<Command> commands)
 {
 
@@ -86,6 +90,7 @@ bool Rover::process_command(std::vector<Command> commands)
         {
             return false;
         }
+        
         this->pos.x = new_x;
         this->pos.y = new_y;
     }
