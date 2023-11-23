@@ -112,7 +112,7 @@ TEST_CASE("When invalid move cmd do not turn or move", "[movement]")
     REQUIRE(rover.getDir() == 'N');
 }
 
-TEST_CASE("When given array of cmds rover change it's possition", "[position]")
+TEST_CASE("When given array of cmds rover change it's position", "[position]")
 {
     Rover rover(0, 0, 'N', nullptr);
 
@@ -123,7 +123,7 @@ TEST_CASE("When given array of cmds rover change it's possition", "[position]")
     REQUIRE(rover.getDir() == 'E');
 }
 
-TEST_CASE("When given array of invalid cmds rover doen't change it's possition", "[position]")
+TEST_CASE("When given array of invalid cmds rover doesn't change it's position", "[position]")
 {
     Rover rover(1, 2, 'W', nullptr);
 
@@ -166,7 +166,7 @@ TEST_CASE("When no obstacle rover moves on", "[obsatcle]")
     REQUIRE(rover.getDir() == 'N');
 }
 
-TEST_CASE("When obstacle rover doesn't moves on", "[obsatcle]")
+TEST_CASE("When obstacle rover doesn't moves on", "[obstacle]")
 {
     TestObstacleDetector obstacle_detector(true);
 
@@ -179,7 +179,7 @@ TEST_CASE("When obstacle rover doesn't moves on", "[obsatcle]")
     REQUIRE(rover.getDir() == 'N');
 }
 
-TEST_CASE("When obstacle rover reports it", "[obsatcle]")
+TEST_CASE("When obstacle rover reports it", "[obstacle]")
 {
     TestObstacleDetector obstacle_detector(true);
     Rover rover(0, 0, 'N', &obstacle_detector);
@@ -191,7 +191,7 @@ TEST_CASE("When obstacle rover reports it", "[obsatcle]")
     REQUIRE(rover.getDir() == 'N');
 }
 
-TEST_CASE("When new run commands is provided obstacle report is cleared", "[obsatcle]")
+TEST_CASE("When new run commands is provided obstacle report is cleared", "[obstacle]")
 {
     TestObstacleDetector obstacle_detector(true);
     Rover rover(0, 0, 'N', &obstacle_detector);
