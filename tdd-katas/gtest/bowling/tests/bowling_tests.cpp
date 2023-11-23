@@ -140,7 +140,6 @@ class BowlingGameParamTests : public ::testing::TestWithParam<BowlingGameParams>
 {
 protected:
     BowlingGame game; // SUT
-
 };
 
 TEST_P(BowlingGameParamTests, RealExamplesWithScore)
@@ -191,6 +190,7 @@ struct VectorAsDynamicArray : VectorWithItems
 
 struct VectorIndexing : VectorWithItems
 {};
+
 
 TEST_F(VectorAsDynamicArray, PushBackIncreasesSize)
 {
