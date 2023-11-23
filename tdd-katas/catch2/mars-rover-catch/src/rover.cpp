@@ -1,4 +1,5 @@
 #include "rover.hpp"
+
 #include <stdlib.h>
 
 using namespace TDD;
@@ -90,7 +91,7 @@ bool Rover::process_command(std::vector<Command> commands)
         {
             return false;
         }
-        
+
         this->pos.x = new_x;
         this->pos.y = new_y;
     }
