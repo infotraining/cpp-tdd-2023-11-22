@@ -7,7 +7,25 @@
 using namespace ::testing;
 using namespace std::literals;
 
-TEST(ApplicationTests, TODO)
+class DocEditApp
 {
-    //FAIL();
+public:
+    DocEditApp(Console& console) : console_{console}
+    {}
+
+    void run()
+    {
+        console_.print("> Enter a command:");
+    }
+private:
+    Console& console_;
+};
+
+TEST(ApplicationTests, DisplaysPromptForCommand)
+{
+    MockConsole console;
+    EXPECT_CALL(console, print("> Enter a command:"));
+
+    DocEditApp app(console);
+    app.run();
 }

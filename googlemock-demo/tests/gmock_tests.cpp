@@ -97,6 +97,7 @@ TEST_F(GMockDemoTests, DefaultValueCanBeSetForMethodUsingExpectCall)
     ASSERT_EQ(mock.get_name(), "jan");
     ASSERT_EQ(mock.get_name(), "jan");
     ASSERT_EQ(mock.get_name(), "jan");
+    ASSERT_EQ(mock.get_name(), "jan");
 
     ASSERT_EQ(mock.get_value(1), ""s);
 }
@@ -115,6 +116,7 @@ TEST_F(GMockDemoTests, VerificationHowManyTimesMethodIsCalled2)
 {
     using namespace ::testing;
 
+
     EXPECT_CALL(mock, save_value(_, _)).WillRepeatedly(Return(false));
     EXPECT_CALL(mock, save_value(Gt(0), _))
         .Times(AtMost(3))
@@ -129,15 +131,21 @@ TEST_F(GMockDemoTests, VerificationHowManyTimesMethodIsCalled2)
     ASSERT_FALSE(mock.save_value(4, "d"));
 }
 
+
+
 TEST_F(GMockDemoTests, ReturnDifferentValuesBasedOnArgument)
 {
     using namespace ::testing;
 
+    InSequence s;
+
+    EXPECT_CALL(mock, get_value(_)).WillRepeatedly(Return("zero"));
     EXPECT_CALL(mock, get_value(Gt(0))).WillRepeatedly(Return("positive"));
     EXPECT_CALL(mock, get_value(Lt(0))).WillRepeatedly(Return("negative"));
 
     ASSERT_EQ(mock.get_value(10), "positive");
     ASSERT_EQ(mock.get_value(-1), "negative");   
+    ASSERT_EQ(mock.get_value(145), "zero");
 }
 
 TEST_F(GMockDemoTests, ExpectingOrderedCalls)
@@ -302,6 +310,7 @@ TEST(AssertsWithMatchers, SimpleMatchers)
 
     using namespace ::testing;
 
+    ASSERT_GT(x, 5);
     ASSERT_THAT(x, Gt(5));
     ASSERT_THAT(x, AllOf(Gt(5), Lt(15)));
 }

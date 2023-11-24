@@ -1,5 +1,9 @@
 # Szkolenie - Test-Driven Development w C++ #
 
+## Ankieta
+
+* https://forms.gle/q4V6e6GxTrmxtZuZ8
+
 ## Dokumentacja
 
 * https://infotraining.github.io/docs-cpp-tdd
@@ -7,6 +11,7 @@
 ### Linki
 
 * https://martinfowler.com/articles/mocksArentStubs.html
+* https://github.com/rollbear/trompeloeil
 
 ## Konfiguracja środowiska
 

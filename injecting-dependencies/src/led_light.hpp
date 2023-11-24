@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+// low level dependency
+
 class ILEDLight
 {
 public:
@@ -10,7 +12,7 @@ public:
     virtual ~ILEDLight() = default;
 };
 
-class LEDLight : public ILEDLight
+class  LEDLight : public ILEDLight
 {
     int id_;
 public:

@@ -22,7 +22,7 @@ class Button
     bool is_on_;
 
 public:
-    Button(int btn_number, std::shared_ptr<ISwitch> light_switch)
+    Button(int btn_number, std::shared_ptr<ISwitch> light_switch) // DI
         : btn_number_ {btn_number}
         , light_switch_ {light_switch}
         , is_on_ {false}
@@ -124,7 +124,6 @@ namespace FactoryMethod
         {
             auto light_switch = get_light_switch();
 
-            std::cout << "Button " << btn_number_ << " clicked...\n";
             if (!is_on_)
             {
                 light_switch->on();
@@ -153,14 +152,8 @@ namespace FactoryMethod
 
     class TestableButton : public Button
     {
-        std::shared_ptr<MockSwitch> mq_switch_;
         MockLogger mq_logger_;
-    protected:
-        std::shared_ptr<ISwitch> get_light_switch() override
-        {
-            return mq_switch_;
-        }
-
+    public:
         ILogger& get_logger() override
         {
             return mq_logger_;
