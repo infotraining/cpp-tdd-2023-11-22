@@ -3,17 +3,12 @@
 #include <queue>
 
 #include "document.hpp"
+#include "application.hpp"
+#include "command.hpp"
 #include "mocks/mocks.hpp"
 
 using namespace ::testing;
 using namespace std::literals;
-
-class Command
-{
-public:
-    virtual ~Command() = default;
-    virtual void execute() = 0;
-};
 
 class MockCommand : public Command
 {
@@ -21,35 +16,7 @@ public:
     MOCK_METHOD(void, execute, (), (override));
 };
 
-class DocEditApp
-{
-public:
-    DocEditApp(Console& console) : console_{console}
-    {}
 
-    void run()
-    {
-        do 
-        {
-            console_.print("> Enter a command:");
-            std::string cmd_text = console_.get_line();
-            if (cmd_text == "Exit") break;
-
-            if (commands_.count(cmd_text))
-            {
-                commands_[cmd_text]->execute();
-            }
-        } while (true);
-    }
-
-    void add_command(std::string name, std::unique_ptr<Command> cmd)
-    {
-        commands_.emplace(std::move(name), std::move(cmd));
-    }
-private:
-    Console& console_;
-    std::map<std::string, std::unique_ptr<Command>> commands_;
-};
 
 struct ApplicationMainLoop : ::testing::Test
 {
@@ -102,21 +69,7 @@ TEST_F(ApplicationMainLoop, ExecutesCommand)
 //////////////////////////////////////////////
 // Command Print
 
-class PrintCmd : public Command
-{
-    Document& doc_;
-    Console& console_;
-public:
-    PrintCmd(Document& doc, Console& console) : doc_{doc}, console_{console}
-    {        
-    }
 
-    void execute() override
-    {
-        std::string content = "[" + doc_.text() + "]";
-        console_.print(content);
-    }
-};
 
 TEST(PrintCmdTests, ExecutePrintsDocContentInConsole)
 {
@@ -127,6 +80,25 @@ TEST(PrintCmdTests, ExecutePrintsDocContentInConsole)
     
     EXPECT_CALL(console, print("[abc]"));
     cmd.execute();
+}
+
+
+
+//////////////////////////////////////////////
+// Command AddText
+
+TEST(AddCmdTests, Execute)
+{
+    Document doc{"abc"};   
+    MockConsole console;
+
+    AddCmd cmd{doc, console};  
+    
+    EXPECT_CALL(console, print("AddText:"));
+    EXPECT_CALL(console, get_line()).WillOnce(Return("def"));
+    cmd.execute();  
+
+    ASSERT_EQ(doc.text(), "abcdef"); 
 }
 
 
