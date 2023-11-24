@@ -183,6 +183,13 @@ TEST_F(GMockDemoTests, SpyingOnParamtersInvokedInMock)
     ASSERT_THAT(mock.get_value(3), StrEq("3"));
 
     ASSERT_THAT(spy, ElementsAre(1, 2, 3));
+
+    // vector<int(*)(int)> spied_funcs;
+
+    // EXPECT_CALL(mock, register_callback(_))
+    //     .WillRepeatedly(Invoke([&spied_funcs](int(*ptrf)(int)) { spied_funcs.push_back(ptrf); }));
+
+    // // SUT.run()
 }
 
 TEST_F(GMockDemoTests, ReturningSequencedValues)
