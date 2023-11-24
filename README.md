@@ -4,6 +4,10 @@
 
 * https://infotraining.github.io/docs-cpp-tdd
 
+### Linki
+
+* https://martinfowler.com/articles/mocksArentStubs.html
+
 ## Konfiguracja środowiska
 
 Proszę wybrać jedną z poniższych opcji:

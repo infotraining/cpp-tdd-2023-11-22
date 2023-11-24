@@ -41,7 +41,7 @@ protected:
     const string talisker = "Talisker";
     const string highland_park = "Highland Park";
 
-    WarehouseImpl warehouse_;
+    WarehouseImpl warehouse_; // fake
     Order order_;
 
 public:

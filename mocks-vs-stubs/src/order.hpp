@@ -22,6 +22,9 @@ public:
     {
         if (warehouse.has_inventory(product_, quantity_))
         {
+            // log state of my warehouse
+            auto get_inventory = warehouse.get_inventory(product_);
+
             warehouse.remove(product_, quantity_);
 
             is_filled_ = true;

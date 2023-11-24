@@ -21,6 +21,7 @@ struct MockWarehouse : Warehouse
 using ::testing::Return;
 using ::testing::_;
 using ::testing::NiceMock;
+using ::testing::StrictMock;
 
 class OrderInteractionsTests : public ::testing::Test
 {
@@ -28,7 +29,9 @@ protected:
     const string talisker = "Talisker";
     const string highland_park = "Highland Park";
 
-    NiceMock<MockWarehouse> warehouse_;
+    MockWarehouse warehouse_; // default mock - warning if method called without setup
+    //NiceMock<MockWarehouse> warehouse_; // warnings off
+    //StrictMock<MockWarehouse> warehouse_; // error if method called without setup
 
 public:
     OrderInteractionsTests() = default;
@@ -38,8 +41,8 @@ TEST_F(OrderInteractionsTests, FillingOrderRemovesInventoryIfEnoughInStock)
 {
     Order order{talisker, 50};
 
-    ON_CALL(warehouse_, has_inventory(talisker, 50)).WillByDefault(Return(true));
-    EXPECT_CALL(warehouse_, remove(talisker, 50)).Times(1);
+    ON_CALL(warehouse_, has_inventory(talisker, 50)).WillByDefault(Return(true)); // ARRANGE
+    EXPECT_CALL(warehouse_, remove(talisker, 50)).Times(1); // ASSERT 
 
     order.fill(warehouse_);
 }
